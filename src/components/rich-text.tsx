@@ -44,8 +44,10 @@ export function RichText({
   className?: string;
 }) {
   const html = useMemo(() => renderMarkup(text), [text]);
+  const inline = className?.split(/\s+/).includes("inline");
+  const Tag = inline ? "span" : "div";
   return (
-    <div
+    <Tag
       className={cn("rich-text leading-relaxed", className)}
       dangerouslySetInnerHTML={{ __html: html }}
     />

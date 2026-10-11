@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QuestionCard } from "@/components/question-card";
 import { StatusBlock } from "@/components/status-block";
 import { Button } from "@/components/ui/button";
-import { useIsClient } from "@/lib/browser-store";
 import { questionsForTopic } from "@/lib/quiz";
 import type { Question, Topic } from "@/lib/types";
 
@@ -18,16 +17,20 @@ function drawQuestion(topic: Topic, avoidId?: string): Question | null {
 }
 
 export function PracticeSession({ topic }: { topic: Topic }) {
-  const client = useIsClient();
-  const [draw, setDraw] = useState<{ topicId: string; question: Question | null } | null>(null);
+  const [question, setQuestion] = useState<Question | null>(null);
+  const [ready, setReady] = useState(false);
   const [checked, setChecked] = useState(false);
 
-  if (client && (draw === null || draw.topicId !== topic.id)) {
-    setChecked(false);
-    setDraw({ topicId: topic.id, question: drawQuestion(topic) });
-  }
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      setQuestion(drawQuestion(topic));
+      setChecked(false);
+      setReady(true);
+    }, 0);
+    return () => window.clearTimeout(timeout);
+  }, [topic]);
 
-  if (!client || draw === null || draw.topicId !== topic.id) {
+  if (!ready) {
     return (
       <StatusBlock
         title="Drawing a question"
@@ -36,7 +39,7 @@ export function PracticeSession({ topic }: { topic: Topic }) {
     );
   }
 
-  if (!draw.question) {
+  if (!question) {
     return (
       <StatusBlock
         title="No questions in this topic"
@@ -46,8 +49,6 @@ export function PracticeSession({ topic }: { topic: Topic }) {
       />
     );
   }
-
-  const question = draw.question;
 
   return (
     <div className="space-y-4">
@@ -63,7 +64,7 @@ export function PracticeSession({ topic }: { topic: Topic }) {
           className="h-10 px-4"
           onClick={() => {
             setChecked(false);
-            setDraw({ topicId: topic.id, question: drawQuestion(topic, question.id) });
+            setQuestion(drawQuestion(topic, question.id));
           }}
         >
           Another question

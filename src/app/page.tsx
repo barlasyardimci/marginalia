@@ -29,7 +29,7 @@ export default function HomePage() {
               <p className="mt-3 text-xs text-muted-foreground">
                 {questionsForTopic(topic.id).length} questions
               </p>
-              <Button className="mt-4 h-10 px-4" render={<Link href={`/practice/${topic.id}`} />}>
+              <Button className="mt-4 h-10 px-4" nativeButton={false} render={<Link href={`/practice/${topic.id}`} />}>
                 Practice
               </Button>
             </li>
@@ -43,6 +43,7 @@ export default function HomePage() {
           <Button
             variant="secondary"
             className="mt-5 h-10 px-4"
+            nativeButton={false}
             render={<Link href="/quiz" />}
           >
             Set up a quiz

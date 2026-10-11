@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { QuestionCard, type GradePayload } from "@/components/question-card";
 import { ResultReview } from "@/components/result-review";
 import { StatusBlock } from "@/components/status-block";
 import { Button } from "@/components/ui/button";
-import { isErrorSnapshot, isServerSnapshot, useBrowserValue } from "@/lib/browser-store";
 import { correctDisplay, userAnswerDisplay } from "@/lib/grade";
 import { questionById } from "@/lib/questions";
 import {
@@ -30,10 +29,43 @@ function toStoredQuiz(quiz: ActiveQuiz): StoredQuiz {
 }
 
 export function QuizRunner() {
-  const raw = useBrowserValue("session", ACTIVE_KEY, ACTIVE_EVENT);
+  const [quiz, setQuiz] = useState<ActiveQuiz | null>(null);
+  const [phase, setPhase] = useState<"loading" | "ready" | "missing" | "error">("loading");
   const [storeError, setStoreError] = useState<string | null>(null);
 
-  if (isServerSnapshot(raw)) {
+  useEffect(() => {
+    function read() {
+      try {
+        const loaded = parseActiveQuiz(window.sessionStorage.getItem(ACTIVE_KEY) ?? "");
+        if (!loaded || loaded.questionIds.length === 0) {
+          setPhase("missing");
+          setQuiz(null);
+          return;
+        }
+        setQuiz(loaded);
+        setPhase("ready");
+      } catch {
+        setPhase("error");
+      }
+    }
+
+    const timeout = window.setTimeout(read, 0);
+    window.addEventListener(ACTIVE_EVENT, read);
+    return () => {
+      window.clearTimeout(timeout);
+      window.removeEventListener(ACTIVE_EVENT, read);
+    };
+  }, []);
+
+  function persist(next: ActiveQuiz) {
+    try {
+      saveActiveQuiz(next);
+    } catch {
+      setStoreError("The browser refused to store this quiz.");
+    }
+  }
+
+  if (phase === "loading") {
     return (
       <StatusBlock
         title="Loading this quiz"
@@ -42,13 +74,13 @@ export function QuizRunner() {
     );
   }
 
-  if (isErrorSnapshot(raw) || storeError) {
+  if (phase === "error" || storeError) {
     return (
       <StatusBlock
         title="This quiz could not be opened"
         body={
           storeError ??
-          "The browser refused to read the quiz saved in this tab. Start again from the quiz page."
+          "The saved quiz in this tab was unreadable, or the browser refused to store the result. Start again from the quiz page."
         }
         href="/quiz"
         action="Back to quiz setup"
@@ -56,26 +88,7 @@ export function QuizRunner() {
     );
   }
 
-  let quiz: ActiveQuiz | null = null;
-  let broken = false;
-  try {
-    quiz = parseActiveQuiz(raw);
-  } catch {
-    broken = true;
-  }
-
-  if (broken) {
-    return (
-      <StatusBlock
-        title="This quiz could not be opened"
-        body="The saved quiz in this tab was unreadable. Start again from the quiz page."
-        href="/quiz"
-        action="Back to quiz setup"
-      />
-    );
-  }
-
-  if (!quiz || quiz.questionIds.length === 0) {
+  if (phase === "missing" || !quiz) {
     return (
       <StatusBlock
         title="No quiz is open in this tab"
@@ -87,14 +100,6 @@ export function QuizRunner() {
   }
 
   const active = quiz;
-
-  function persist(next: ActiveQuiz) {
-    try {
-      saveActiveQuiz(next);
-    } catch {
-      setStoreError("The browser refused to store this quiz.");
-    }
-  }
 
   function gradeCurrent(result: GradePayload) {
     const question = questionById(active.questionIds[active.index] ?? "");
@@ -140,7 +145,7 @@ export function QuizRunner() {
     return (
       <div className="space-y-4">
         <ResultReview quiz={stored} heading={`${stored.score} of ${active.questionIds.length}`} />
-        <Button className="h-10 px-4" render={<Link href="/history" />}>
+        <Button className="h-10 px-4" nativeButton={false} render={<Link href="/history" />}>
           Open history
         </Button>
       </div>

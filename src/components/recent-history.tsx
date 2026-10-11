@@ -14,7 +14,7 @@ export function RecentHistory() {
             Scores stay on this browser. Nothing is sent to an account.
           </p>
         </div>
-        <Button variant="ghost" className="h-9 px-3" render={<Link href="/history" />}>
+        <Button variant="ghost" className="h-9 px-3" nativeButton={false} render={<Link href="/history" />}>
           History
         </Button>
       </div>

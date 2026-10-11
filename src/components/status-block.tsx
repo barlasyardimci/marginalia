@@ -17,7 +17,7 @@ export function StatusBlock({
       <h2 className="font-heading text-2xl">{title}</h2>
       <p className="mt-2 max-w-xl text-muted-foreground">{body}</p>
       {href && action ? (
-        <Button className="mt-5 h-10 px-4" render={<Link href={href} />}>
+        <Button className="mt-5 h-10 px-4" nativeButton={false} render={<Link href={href} />}>
           {action}
         </Button>
       ) : null}

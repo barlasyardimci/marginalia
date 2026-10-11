@@ -1,19 +1,40 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { isErrorSnapshot, isServerSnapshot, useBrowserValue } from "@/lib/browser-store";
+import { useEffect, useState } from "react";
 import { ResultReview } from "@/components/result-review";
 import { StatusBlock } from "@/components/status-block";
 import { Button } from "@/components/ui/button";
 import { formatWhen, HISTORY_EVENT, HISTORY_KEY, parseHistory } from "@/lib/storage";
 import { getTopic } from "@/lib/topics";
+import type { StoredQuiz } from "@/lib/types";
 
 export function HistoryBrowser({ limit }: { limit?: number }) {
-  const raw = useBrowserValue("local", HISTORY_KEY, HISTORY_EVENT);
+  const [quizzes, setQuizzes] = useState<StoredQuiz[]>([]);
+  const [phase, setPhase] = useState<"loading" | "ready" | "error">("loading");
   const [openId, setOpenId] = useState<string | null>(null);
 
-  if (isServerSnapshot(raw)) {
+  useEffect(() => {
+    function read() {
+      try {
+        setQuizzes(parseHistory(window.localStorage.getItem(HISTORY_KEY) ?? ""));
+        setPhase("ready");
+      } catch {
+        setPhase("error");
+      }
+    }
+
+    const timeout = window.setTimeout(read, 0);
+    window.addEventListener(HISTORY_EVENT, read);
+    window.addEventListener("storage", read);
+    return () => {
+      window.clearTimeout(timeout);
+      window.removeEventListener(HISTORY_EVENT, read);
+      window.removeEventListener("storage", read);
+    };
+  }, []);
+
+  if (phase === "loading") {
     return (
       <StatusBlock
         title="Opening saved quizzes"
@@ -22,23 +43,11 @@ export function HistoryBrowser({ limit }: { limit?: number }) {
     );
   }
 
-  if (isErrorSnapshot(raw)) {
+  if (phase === "error") {
     return (
       <StatusBlock
         title="Saved quizzes could not be read"
-        body="This browser blocked local storage. New quizzes can still be taken, but past scores are unavailable right now."
-      />
-    );
-  }
-
-  let quizzes;
-  try {
-    quizzes = parseHistory(raw);
-  } catch {
-    return (
-      <StatusBlock
-        title="Saved quizzes could not be read"
-        body="The saved list in this browser is damaged. New quizzes can still be taken, but these past scores cannot be opened."
+        body="This browser blocked local storage, or the saved list is damaged. New quizzes can still be taken, but past scores are unavailable right now."
       />
     );
   }
@@ -87,7 +96,7 @@ export function HistoryBrowser({ limit }: { limit?: number }) {
       </ul>
       {open ? <ResultReview quiz={open} /> : null}
       {limit && quizzes.length > limit ? (
-        <Button variant="outline" className="h-10 px-4" render={<Link href="/history" />}>
+        <Button variant="outline" className="h-10 px-4" nativeButton={false} render={<Link href="/history" />}>
           All saved quizzes
         </Button>
       ) : null}
