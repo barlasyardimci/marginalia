@@ -92,88 +92,313 @@ export const questions: Question[] = [
   {
     id: "d6",
     topicId: "derivatives",
-    kind: "numeric",
-    prompt:
-      "Revenue is $R(q) = 50q - q^{2}$ and cost is $C(q) = 10q + 100$. What quantity $q$ maximizes profit? Marginal revenue is falling, so the critical point is a maximum.",
-    answer: 20,
-    tolerance: tol,
+    kind: "choice",
+    prompt: "Let $f(x) = 3x^{4} - 2x^{2} + 7$. Which expression is $f'(x)$?",
+    choices: [
+      { id: "a", text: "$12x^{3} - 4x$" },
+      { id: "b", text: "$12x^{3} - 2x$" },
+      { id: "c", text: "$12x^{4} - 4x$" },
+      { id: "d", text: "$7x^{3} - 4x$" },
+    ],
+    correctChoiceId: "a",
     guidance:
-      "Profit is revenue minus cost. An interior quantity maximizes profit where marginal revenue equals marginal cost, provided marginal revenue is falling. Differentiate each function and set them equal. Example: if $MR(q) = 14 - 2q$ and $MC = 4$, then $14 - 2q = 4$, so $q = 5$.",
+      "The power rule says the derivative of $ax^{n}$ is $anx^{n-1}$, and a constant term has derivative zero. Differentiate each term on its own. Example: the derivative of $2x^{3} + 5$ is $6x^{2}$.",
     solution: [
-      "$MR(q) = 50 - 2q$ and $MC(q) = 10$.",
-      "Set $50 - 2q = 10$. Then $2q = 40$, so $q = 20$.",
-      "The slope of marginal revenue is $-2 < 0$, so this critical point is a maximum.",
+      "The derivative of $3x^{4}$ is $12x^{3}$.",
+      "The derivative of $-2x^{2}$ is $-4x$, and the derivative of $7$ is $0$.",
+      "So $f'(x) = 12x^{3} - 4x$.",
     ],
   },
   {
     id: "d7",
     topicId: "derivatives",
     kind: "numeric",
-    prompt:
-      "Total cost is $C(q) = q^{3} - 6q^{2} + 15q + 10$. What is marginal cost at $q = 2$?",
-    answer: 3,
+    prompt: "Let $f(x) = 2x^{3} - 5x + 4$. What is $f'(2)$?",
+    answer: 19,
     tolerance: tol,
     guidance:
-      "Differentiate each term with the power rule, then evaluate at the stated output. A square term $aq^{2}$ contributes $2aq$. Example: $C(q) = q^{2} + 5q$ has marginal cost $2q + 5$, equal to $9$ at $q = 2$.",
+      "Use the power rule on each term: the derivative of $ax^{n}$ is $anx^{n-1}$, and the derivative of a constant is zero. Then substitute the given input. Example: if $f(x) = x^{2} - 3x$, then $f'(x) = 2x - 3$, so $f'(4) = 5$.",
     solution: [
-      "$MC(q) = 3q^{2} - 12q + 15$.",
-      "At $q = 2$, $MC(2) = 3 \\cdot 4 - 12 \\cdot 2 + 15 = 12 - 24 + 15 = 3$.",
+      "$f'(x) = 6x^{2} - 5$.",
+      "At $x = 2$, $f'(2) = 6 \\cdot 4 - 5 = 19$.",
     ],
   },
   {
     id: "d8",
     topicId: "derivatives",
     kind: "choice",
-    prompt:
-      "Marginal utility is $MU(x) = 20 - 2x$ and $U(0) = 0$. Which function is total utility $U(x)$?",
+    prompt: "Let $f(x) = 5x^{3} + 4x^{2} - x + 9$. Which expression is $f'(x)$?",
     choices: [
-      { id: "a", text: "$20x - x^{2}$" },
-      { id: "b", text: "$20 - 2x$" },
-      { id: "c", text: "$20x - 2x^{2}$" },
-      { id: "d", text: "$10x - x^{2}$" },
+      { id: "a", text: "$15x^{2} + 8x - 1$" },
+      { id: "b", text: "$15x^{2} + 8x + 1$" },
+      { id: "c", text: "$15x^{2} + 4x - 1$" },
+      { id: "d", text: "$5x^{2} + 8x - 1$" },
     ],
     correctChoiceId: "a",
     guidance:
-      "Marginal utility is the derivative of total utility, so total utility is an antiderivative of marginal utility. Integrate, then use the given value at zero to fix the constant. Example: $MU(x) = 6 - 2x$ and $U(0) = 0$ imply $U(x) = 6x - x^{2}$.",
+      "Differentiate a polynomial term by term. The power rule turns $ax^{n}$ into $anx^{n-1}$, and a constant disappears. Example: the derivative of $x^{3} + 2x^{2} - 4$ is $3x^{2} + 4x$.",
     solution: [
-      "Integrate $20 - 2x$ to get $20x - x^{2} + c$.",
-      "$U(0) = 0$ forces $c = 0$.",
-      "Check: the derivative of $20x - x^{2}$ is $20 - 2x$, which matches $MU$.",
+      "The derivative of $5x^{3}$ is $15x^{2}$, of $4x^{2}$ is $8x$, and of $-x$ is $-1$.",
+      "The constant $9$ drops out.",
+      "So $f'(x) = 15x^{2} + 8x - 1$.",
     ],
   },
   {
     id: "d9",
     topicId: "derivatives",
     kind: "numeric",
-    prompt:
-      "Inverse demand is $P = 40 - 2q$, so total revenue is $R(q) = 40q - 2q^{2}$. What is marginal revenue at $q = 5$?",
-    answer: 20,
+    prompt: "Let $f(x) = x^{5} - 4x^{2}$. What is $f'(2)$?",
+    answer: 64,
     tolerance: tol,
     guidance:
-      "Write revenue as price times quantity before you differentiate. Marginal revenue is not the price itself. Example: if $P = 12 - q$, then $R = 12q - q^{2}$ and $MR = 12 - 2q$, so at $q = 2$ marginal revenue is $8$.",
+      "Apply the power rule to each power of $x$, then evaluate. The derivative of $x^{n}$ is $nx^{n-1}$. Example: if $f(x) = x^{3} - x$, then $f'(x) = 3x^{2} - 1$ and $f'(2) = 11$.",
     solution: [
-      "$R(q) = (40 - 2q)q = 40q - 2q^{2}$.",
-      "$MR(q) = 40 - 4q$.",
-      "At $q = 5$, $MR(5) = 40 - 20 = 20$.",
+      "$f'(x) = 5x^{4} - 8x$.",
+      "At $x = 2$, $f'(2) = 5 \\cdot 16 - 16 = 64$.",
     ],
   },
   {
     id: "d10",
     topicId: "derivatives",
     kind: "choice",
-    prompt: "Total cost is $C(q) = 5q^{2} + 40$. Which expression is marginal cost?",
+    prompt: "Let $f(x) = (2x + 1)(x^{2} - 4)$. Which expression is $f'(x)$?",
     choices: [
-      { id: "a", text: "$10q$" },
-      { id: "b", text: "$5q + 40/q$" },
-      { id: "c", text: "$10q + 40$" },
-      { id: "d", text: "$5q$" },
+      { id: "a", text: "$6x^{2} + 2x - 8$" },
+      { id: "b", text: "$2x^{2} - 8$" },
+      { id: "c", text: "$6x^{2} + 2x$" },
+      { id: "d", text: "$4x^{2} + 2x - 8$" },
     ],
     correctChoiceId: "a",
     guidance:
-      "Marginal cost is the derivative of total cost, not average cost. Average cost divides by $q$; marginal cost does not. Example: $C(q) = 3q^{2} + 7$ has marginal cost $6q$.",
+      "The product rule says $(uv)' = u'v + uv'$. Differentiate each factor, then add the two products. Example: if $f(x) = x(x + 3)$, then $f'(x) = (x + 3) + x = 2x + 3$.",
     solution: [
-      "Average cost would be $C(q)/q = 5q + 40/q$. That is not what is asked.",
-      "Differentiate $5q^{2} + 40$ to get $MC(q) = 10q$.",
+      "Let $u = 2x + 1$ and $v = x^{2} - 4$, so $u' = 2$ and $v' = 2x$.",
+      "$f'(x) = 2(x^{2} - 4) + (2x + 1)(2x) = 2x^{2} - 8 + 4x^{2} + 2x$.",
+      "So $f'(x) = 6x^{2} + 2x - 8$.",
+    ],
+  },
+  {
+    id: "d11",
+    topicId: "derivatives",
+    kind: "numeric",
+    prompt: "Let $f(x) = (x + 3)(x - 1)$. What is $f'(2)$?",
+    answer: 6,
+    tolerance: tol,
+    guidance:
+      "The product rule is $(uv)' = u'v + uv'$. Differentiate, then substitute the given value. Example: $f(x) = (x + 1)(x + 2)$ has derivative $2x + 3$, so $f'(1) = 5$.",
+    solution: [
+      "$f'(x) = (x - 1) + (x + 3) = 2x + 2$.",
+      "At $x = 2$, $f'(2) = 4 + 2 = 6$.",
+    ],
+  },
+  {
+    id: "d12",
+    topicId: "derivatives",
+    kind: "numeric",
+    prompt: "Let $f(x) = x^{2}(3x - 5)$. What is $f'(2)$?",
+    answer: 16,
+    tolerance: tol,
+    guidance:
+      "For a product, $(uv)' = u'v + uv'$. Simplify the derivative, then evaluate. Example: $f(x) = x(x - 1)$ has derivative $2x - 1$, and $f'(3) = 5$.",
+    solution: [
+      "Expanding first, $f(x) = 3x^{3} - 5x^{2}$, so $f'(x) = 9x^{2} - 10x$.",
+      "At $x = 2$, $f'(2) = 9 \\cdot 4 - 20 = 16$.",
+    ],
+  },
+  {
+    id: "d13",
+    topicId: "derivatives",
+    kind: "choice",
+    prompt: "Let $f(x) = \\frac{x^{2} + 1}{x}$. Which expression is $f'(x)$?",
+    choices: [
+      { id: "a", text: "$\\frac{x^{2} - 1}{x^{2}}$" },
+      { id: "b", text: "$\\frac{2x}{x^{2}}$" },
+      { id: "c", text: "$\\frac{x^{2} + 1}{x^{2}}$" },
+      { id: "d", text: "$2x - \\frac{1}{x^{2}}$" },
+    ],
+    correctChoiceId: "a",
+    guidance:
+      "The quotient rule is $\\left(\\frac{u}{v}\\right)' = \\frac{u'v - uv'}{v^{2}}$. Differentiate the numerator and the denominator, then assemble that formula. Example: the derivative of $\\frac{x}{x + 1}$ is $\\frac{1}{(x + 1)^{2}}$.",
+    solution: [
+      "With $u = x^{2} + 1$ and $v = x$, $f'(x) = \\frac{2x \\cdot x - (x^{2} + 1) \\cdot 1}{x^{2}}$.",
+      "The numerator is $2x^{2} - x^{2} - 1 = x^{2} - 1$.",
+      "So $f'(x) = \\frac{x^{2} - 1}{x^{2}}$.",
+    ],
+  },
+  {
+    id: "d14",
+    topicId: "derivatives",
+    kind: "numeric",
+    prompt: "Let $f(x) = \\frac{3x + 1}{x + 2}$. What is $f'(1)$?",
+    answer: 5 / 9,
+    tolerance: tol,
+    guidance:
+      "The quotient rule is $\\left(\\frac{u}{v}\\right)' = \\frac{u'v - uv'}{v^{2}}$. Find the derivative, then substitute the given input. Example: $f(x) = \\frac{x}{x + 1}$ has $f'(x) = \\frac{1}{(x + 1)^{2}}$, so $f'(1) = \\frac{1}{4}$.",
+    solution: [
+      "$f'(x) = \\frac{3(x + 2) - (3x + 1)}{(x + 2)^{2}} = \\frac{5}{(x + 2)^{2}}$.",
+      "At $x = 1$, $f'(1) = \\frac{5}{9}$.",
+    ],
+  },
+  {
+    id: "d15",
+    topicId: "derivatives",
+    kind: "numeric",
+    prompt: "Let $f(x) = \\frac{x^{2}}{2x + 1}$. What is $f'(1)$?",
+    answer: 4 / 9,
+    tolerance: tol,
+    guidance:
+      "Use the quotient rule $\\frac{u'v - uv'}{v^{2}}$, simplify, then evaluate. Example: $f(x) = \\frac{x^{2}}{x + 1}$ has derivative $\\frac{x^{2} + 2x}{(x + 1)^{2}}$, and $f'(1) = \\frac{3}{4}$.",
+    solution: [
+      "$f'(x) = \\frac{2x(2x + 1) - x^{2} \\cdot 2}{(2x + 1)^{2}} = \\frac{2x^{2} + 2x}{(2x + 1)^{2}}$.",
+      "At $x = 1$, $f'(1) = \\frac{4}{9}$.",
+    ],
+  },
+  {
+    id: "d16",
+    topicId: "derivatives",
+    kind: "choice",
+    prompt: "Let $f(x) = (2x + 1)^{3}$. Which expression is $f'(x)$?",
+    choices: [
+      { id: "a", text: "$6(2x + 1)^{2}$" },
+      { id: "b", text: "$3(2x + 1)^{2}$" },
+      { id: "c", text: "$6(2x + 1)^{3}$" },
+      { id: "d", text: "$2(2x + 1)^{2}$" },
+    ],
+    correctChoiceId: "a",
+    guidance:
+      "The chain rule multiplies the outer derivative by the inner derivative. If $f(x) = (g(x))^{n}$, then $f'(x) = n(g(x))^{n-1}g'(x)$. Example: the derivative of $(x + 4)^{2}$ is $2(x + 4)$.",
+    solution: [
+      "The outer power contributes a factor $3(2x + 1)^{2}$, and the inner derivative is $2$.",
+      "So $f'(x) = 6(2x + 1)^{2}$.",
+    ],
+  },
+  {
+    id: "d17",
+    topicId: "derivatives",
+    kind: "numeric",
+    prompt: "Let $f(x) = (3x - 1)^{4}$. What is $f'(1)$?",
+    answer: 96,
+    tolerance: tol,
+    guidance:
+      "For a power of a linear function, the chain rule gives $n(ax + b)^{n-1}$ times the inner slope $a$. Then substitute. Example: if $f(x) = (x + 1)^{3}$, then $f'(x) = 3(x + 1)^{2}$ and $f'(2) = 27$.",
+    solution: [
+      "$f'(x) = 4(3x - 1)^{3} \\cdot 3 = 12(3x - 1)^{3}$.",
+      "At $x = 1$, $f'(1) = 12 \\cdot 2^{3} = 96$.",
+    ],
+  },
+  {
+    id: "d18",
+    topicId: "derivatives",
+    kind: "choice",
+    prompt: "Let $f(x) = e^{4x}$. Which expression is $f'(x)$?",
+    choices: [
+      { id: "a", text: "$4e^{4x}$" },
+      { id: "b", text: "$e^{4x}$" },
+      { id: "c", text: "$4xe^{4x}$" },
+      { id: "d", text: "$4e^{x}$" },
+    ],
+    correctChoiceId: "a",
+    guidance:
+      "The derivative of $e^{kx}$ is $ke^{kx}$: the chain rule multiplies by the constant in the exponent. Example: the derivative of $e^{2x}$ is $2e^{2x}$.",
+    solution: [
+      "Here the exponent is $4x$, whose derivative is $4$.",
+      "So $f'(x) = 4e^{4x}$.",
+    ],
+  },
+  {
+    id: "d19",
+    topicId: "derivatives",
+    kind: "numeric",
+    prompt: "Let $f(x) = \\ln(5x + 1)$. What is $f'(1)$?",
+    answer: 5 / 6,
+    tolerance: tol,
+    guidance:
+      "The derivative of $\\ln(u)$ is $\\frac{u'}{u}$. Differentiate the inside and divide by the inside. Example: if $f(x) = \\ln(3x + 1)$, then $f'(x) = \\frac{3}{3x + 1}$ and $f'(2) = \\frac{3}{7}$.",
+    solution: [
+      "$f'(x) = \\frac{5}{5x + 1}$.",
+      "At $x = 1$, $f'(1) = \\frac{5}{6}$.",
+    ],
+  },
+  {
+    id: "d20",
+    topicId: "derivatives",
+    kind: "numeric",
+    prompt: "Let $f(x) = e^{5x}$. What is $f'(0)$?",
+    answer: 5,
+    tolerance: tol,
+    guidance:
+      "The derivative of $e^{kx}$ is $ke^{kx}$. Evaluate at the given input after differentiating. Example: if $f(x) = e^{2x}$, then $f'(x) = 2e^{2x}$ and $f'(0) = 2$.",
+    solution: [
+      "$f'(x) = 5e^{5x}$.",
+      "At $x = 0$, $f'(0) = 5e^{0} = 5$.",
+    ],
+  },
+  {
+    id: "d21",
+    topicId: "derivatives",
+    kind: "choice",
+    prompt: "Let $f(x) = \\sin(3x)$. Which expression is $f'(x)$?",
+    choices: [
+      { id: "a", text: "$3\\cos(3x)$" },
+      { id: "b", text: "$\\cos(3x)$" },
+      { id: "c", text: "$3\\cos(x)$" },
+      { id: "d", text: "$3\\sin(3x)$" },
+    ],
+    correctChoiceId: "a",
+    guidance:
+      "The derivative of $\\sin(u)$ is $\\cos(u)$ times $u'$. Example: the derivative of $\\sin(2x)$ is $2\\cos(2x)$.",
+    solution: [
+      "The inside is $3x$, and its derivative is $3$.",
+      "So $f'(x) = 3\\cos(3x)$.",
+    ],
+  },
+  {
+    id: "d22",
+    topicId: "derivatives",
+    kind: "numeric",
+    prompt:
+      "Let $f(x) = \\sin(x)$, with $x$ in radians. What is $f'\\left(\\frac{\\pi}{3}\\right)$?",
+    answer: 1 / 2,
+    tolerance: tol,
+    guidance:
+      "The derivative of $\\sin(x)$ is $\\cos(x)$. Substitute the given radian measure after differentiating. Example: $\\cos(0) = 1$, so the derivative of $\\sin(x)$ at $0$ is $1$.",
+    solution: [
+      "$f'(x) = \\cos(x)$.",
+      "$\\cos(\\pi/3) = 1/2$, so $f'(\\pi/3) = 1/2$.",
+    ],
+  },
+  {
+    id: "d23",
+    topicId: "derivatives",
+    kind: "choice",
+    prompt: "Let $f(x) = \\cos(2x)$. Which expression is $f'(x)$?",
+    choices: [
+      { id: "a", text: "$-2\\sin(2x)$" },
+      { id: "b", text: "$2\\sin(2x)$" },
+      { id: "c", text: "$-2\\cos(2x)$" },
+      { id: "d", text: "$-\\sin(2x)$" },
+    ],
+    correctChoiceId: "a",
+    guidance:
+      "The derivative of $\\cos(u)$ is $-\\sin(u)$ times $u'$. Example: the derivative of $\\cos(3x)$ is $-3\\sin(3x)$.",
+    solution: [
+      "The inside is $2x$, and its derivative is $2$.",
+      "So $f'(x) = -2\\sin(2x)$.",
+    ],
+  },
+  {
+    id: "d24",
+    topicId: "derivatives",
+    kind: "numeric",
+    prompt:
+      "Let $f(x) = 5\\cos(x)$, with $x$ in radians. What is $f'\\left(\\frac{\\pi}{2}\\right)$?",
+    answer: -5,
+    tolerance: tol,
+    guidance:
+      "The derivative of $\\cos(x)$ is $-\\sin(x)$. A constant factor stays in front. Example: if $f(x) = 2\\cos(x)$, then $f'(x) = -2\\sin(x)$ and $f'(\\pi) = 0$.",
+    solution: [
+      "$f'(x) = -5\\sin(x)$.",
+      "At $x = \\pi/2$, $f'(\\pi/2) = -5\\sin(\\pi/2) = -5$.",
     ],
   },
   {

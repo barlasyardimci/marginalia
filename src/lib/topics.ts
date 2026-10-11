@@ -5,7 +5,7 @@ export const topics: Topic[] = [
     id: "derivatives",
     title: "Derivatives",
     blurb:
-      "A derivative is the instantaneous rate of change of a function of one variable. For a cost, revenue, or utility function of a single choice, that rate is marginal cost, marginal revenue, or marginal utility.",
+      "A derivative is the instantaneous rate of change of a function of one variable. Differentiate polynomials, products, quotients, compositions, exponentials, logarithms, and sine and cosine, and evaluate the derivative at a point. When the function is cost, revenue, or utility, that same derivative is marginal cost, marginal revenue, or marginal utility.",
   },
   {
     id: "partials",
