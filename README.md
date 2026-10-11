@@ -26,6 +26,12 @@ npm run verify
 
 `npm run verify` checks the question bank: every numeric answer is recomputed, every multiple-choice key is checked against the intended expression, and Guidance text is scanned so it does not contain the answer.
 
+## GitHub Pages
+
+Pushes to `main` deploy to GitHub Actions. In the repo, enable **Settings → Pages → Build and deployment → GitHub Actions**.
+
+Live site (project Pages): `https://<github-user>.github.io/marginalia/`
+
 ## Out of scope
 
 No accounts, no authentication, and no database. No topics beyond the five above.
